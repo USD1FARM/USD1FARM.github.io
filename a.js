@@ -1,920 +1,1293 @@
-// 合约配置
-const CONTRACT_ADDRESS = '0x93fa672A6dA76e14E58dC05D8588E0ab7FB7e107'; // 替换为实际合约地址
-const CONTRACT_ABI = [
-	{
-		"inputs": [],
-		"stateMutability": "nonpayable",
-		"type": "constructor"
-	},
-	{
-		"inputs": [],
-		"name": "EnforcedPause",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "ExpectedPause",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "InvalidInitialization",
-		"type": "error"
-	},
-	{
-		"inputs": [],
-		"name": "NotInitializing",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "owner",
-				"type": "address"
-			}
-		],
-		"name": "OwnableInvalidOwner",
-		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "OwnableUnauthorizedAccount",
-		"type": "error"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "uint64",
-				"name": "version",
-				"type": "uint64"
-			}
-		],
-		"name": "Initialized",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "previousOwner",
-				"type": "address"
-			},
-			{
-				"indexed": true,
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "OwnershipTransferred",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "Paused",
-		"type": "event"
-	},
-	{
-		"anonymous": false,
-		"inputs": [
-			{
-				"indexed": false,
-				"internalType": "address",
-				"name": "account",
-				"type": "address"
-			}
-		],
-		"name": "Unpaused",
-		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "EGGS_TO_HATCH_1MINERS",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "PSN",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "PSNH",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "ref",
-				"type": "address"
-			}
-		],
-		"name": "buy",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "eth",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "contractBalance",
-				"type": "uint256"
-			}
-		],
-		"name": "calculateEggBuy",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "eth",
-				"type": "uint256"
-			}
-		],
-		"name": "calculateEggBuySimple",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "eggs",
-				"type": "uint256"
-			}
-		],
-		"name": "calculateEggSell",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "rt",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "rs",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "bs",
-				"type": "uint256"
-			}
-		],
-		"name": "calculateTrade",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "ceoAddress",
-		"outputs": [
-			{
-				"internalType": "address payable",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "claimedEggs",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "amount",
-				"type": "uint256"
-			}
-		],
-		"name": "devFee",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "pure",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "adr",
-				"type": "address"
-			}
-		],
-		"name": "getEggsSinceLastHatch",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyEggs",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "getMyMiners",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "token",
-				"type": "address"
-			}
-		],
-		"name": "getTokenBalance",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "userAddress",
-				"type": "address"
-			}
-		],
-		"name": "getUserInfo",
-		"outputs": [
-			{
-				"internalType": "uint256[]",
-				"name": "",
-				"type": "uint256[]"
-			},
-			{
-				"internalType": "address[]",
-				"name": "",
-				"type": "address[]"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "ref",
-				"type": "address"
-			}
-		],
-		"name": "hatchEggs",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "hatcheryMiners",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "initialize",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "lastHatch",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "limit",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "marketEggs",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "owner",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "paused",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"name": "referrals",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "seedMarket",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "sell",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_limit",
-				"type": "uint256"
-			}
-		],
-		"name": "setLimit",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "startTrade",
-		"outputs": [
-			{
-				"internalType": "bool",
-				"name": "",
-				"type": "bool"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "usd1Address",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	}
-];
-
-// 请在此处填写USD1代币合约ABI和地址
-const USD1_ABI = [{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"caller","type":"address"},{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"caller","type":"address"},{"indexed":true,"internalType":"address","name":"account","type":"address"}],"name":"Freeze","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint8","name":"version","type":"uint8"}],"name":"Initialized","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"caller","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferStarted","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"caller","type":"address"},{"indexed":true,"internalType":"address","name":"account","type":"address"}],"name":"Unfreeze","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"acceptOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"burn","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"subtractedValue","type":"uint256"}],"name":"decreaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"freeze","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"frozen","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"addedValue","type":"uint256"}],"name":"increaseAllowance","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"string","name":"_name","type":"string"},{"internalType":"string","name":"_symbol","type":"string"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"mint","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pause","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"pendingOwner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"permit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"view","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"amount","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"unfreeze","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"unpause","outputs":[],"stateMutability":"nonpayable","type":"function"}];
-
-const USD1_ADDRESS = '0x8d0D000Ee44948FC98c9B98A4FA4921476f08B0d';
-// const USD1_ADDRESS = '0xaB1a4d4f1D656d2450692D237fdD6C7f9146e814';
-
+var _0xa1692e;
+const CONTRACT_ADDRESS = "701e7BF7ba0E8858D50Cd85E41e67Ad6A276af39x0".split("").reverse().join("");
+_0xa1692e = (372633 ^ 372637) + (498504 ^ 498496);
+const CONTRACT_ABI = [{
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "type": "constructor"
+}, {
+  "inputs": [],
+  "\u006E\u0061\u006D\u0065": "\u0045\u006E\u0066\u006F\u0072\u0063\u0065\u0064\u0050\u0061\u0075\u0073\u0065",
+  "\u0074\u0079\u0070\u0065": "error"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u0045\u0078\u0070\u0065\u0063\u0074\u0065\u0064\u0050\u0061\u0075\u0073\u0065",
+  "type": "\u0065\u0072\u0072\u006F\u0072"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "InvalidInitialization",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0072\u0072\u006F\u0072"
+}, {
+  "inputs": [],
+  "name": "NotInitializing",
+  "\u0074\u0079\u0070\u0065": "error"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u006F\u0077\u006E\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u004F\u0077\u006E\u0061\u0062\u006C\u0065\u0049\u006E\u0076\u0061\u006C\u0069\u0064\u004F\u0077\u006E\u0065\u0072",
+  "\u0074\u0079\u0070\u0065": "error"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "type": "address"
+  }],
+  "name": "\u004F\u0077\u006E\u0061\u0062\u006C\u0065\u0055\u006E\u0061\u0075\u0074\u0068\u006F\u0072\u0069\u007A\u0065\u0064\u0041\u0063\u0063\u006F\u0075\u006E\u0074",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0072\u0072\u006F\u0072"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "inputs": [{
+    "indexed": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0036\u0034",
+    "name": "\u0076\u0065\u0072\u0073\u0069\u006F\u006E",
+    "type": "\u0075\u0069\u006E\u0074\u0036\u0034"
+  }],
+  "name": "\u0049\u006E\u0069\u0074\u0069\u0061\u006C\u0069\u007A\u0065\u0064",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "previousOwner",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "indexed": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u006E\u0065\u0077\u004F\u0077\u006E\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "OwnershipTransferred",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "\u006E\u0061\u006D\u0065": "account",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0050\u0061\u0075\u0073\u0065\u0064",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "inputs": [{
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "Unpaused",
+  "type": "event"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0045\u0047\u0047\u0053\u005F\u0054\u004F\u005F\u0048\u0041\u0054\u0043\u0048\u005F\u0031\u004D\u0049\u004E\u0045\u0052\u0053",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "name": "\u0050\u0053\u004E",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "type": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0050\u0053\u004E\u0048",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "type": "function"
+}, {
+  "inputs": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0061\u006D\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "ref",
+    "type": "address"
+  }],
+  "name": "buy",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "uint256",
+    "\u006E\u0061\u006D\u0065": "eth",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }, {
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0063\u006F\u006E\u0074\u0072\u0061\u0063\u0074\u0042\u0061\u006C\u0061\u006E\u0063\u0065",
+    "type": "uint256"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0063\u0061\u006C\u0063\u0075\u006C\u0061\u0074\u0065\u0045\u0067\u0067\u0042\u0075\u0079",
+  "outputs": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "eth",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "\u006E\u0061\u006D\u0065": "calculateEggBuySimple",
+  "outputs": [{
+    "internalType": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "view",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "name": "eggs",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0063\u0061\u006C\u0063\u0075\u006C\u0061\u0074\u0065\u0045\u0067\u0067\u0053\u0065\u006C\u006C",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "stateMutability": "view",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "uint256",
+    "name": "\u0072\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0072\u0073",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "\u0062\u0073",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u006E\u0061\u006D\u0065": "calculateTrade",
+  "outputs": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "pure",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "\u006E\u0061\u006D\u0065": "ceoAddress",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073\u0020\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "view",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0063\u006C\u0061\u0069\u006D\u0065\u0064\u0045\u0067\u0067\u0073",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "uint256"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0061\u006D\u006F\u0075\u006E\u0074",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "name": "devFee",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "stateMutability": "\u0070\u0075\u0072\u0065",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0067\u0065\u0074\u0042\u0061\u006C\u0061\u006E\u0063\u0065",
+  "outputs": [{
+    "internalType": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0061\u0064\u0072",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "name": "\u0067\u0065\u0074\u0045\u0067\u0067\u0073\u0053\u0069\u006E\u0063\u0065\u004C\u0061\u0073\u0074\u0048\u0061\u0074\u0063\u0068",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "getMyEggs",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "uint256"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "name": "\u0067\u0065\u0074\u004D\u0079\u004D\u0069\u006E\u0065\u0072\u0073",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "type": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "address",
+    "name": "\u0074\u006F\u006B\u0065\u006E",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "\u0067\u0065\u0074\u0054\u006F\u006B\u0065\u006E\u0042\u0061\u006C\u0061\u006E\u0063\u0065",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "view",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "userAddress",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "getUserInfo",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256[]",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "uint256[]"
+  }, {
+    "internalType": "address[]",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073\u005B\u005D"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "view",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "\u006E\u0061\u006D\u0065": "\u0072\u0065\u0066",
+    "type": "address"
+  }],
+  "name": "\u0068\u0061\u0074\u0063\u0068\u0045\u0067\u0067\u0073",
+  "outputs": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "\u0068\u0061\u0074\u0063\u0068\u0065\u0072\u0079\u004D\u0069\u006E\u0065\u0072\u0073",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0069\u006E\u0069\u0074\u0069\u0061\u006C\u0069\u007A\u0065",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "stateMutability": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u006C\u0061\u0073\u0074\u0048\u0061\u0074\u0063\u0068",
+  "outputs": [{
+    "internalType": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u006C\u0069\u006D\u0069\u0074",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "uint256"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "inputs": [],
+  "name": "marketEggs",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u006F\u0077\u006E\u0065\u0072",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "stateMutability": "view",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u0070\u0061\u0075\u0073\u0065\u0064",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "bool",
+    "name": "",
+    "type": "bool"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "name": "",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "referrals",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "address"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "renounceOwnership",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "stateMutability": "nonpayable",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u0073\u0065\u0065\u0064\u004D\u0061\u0072\u006B\u0065\u0074",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "name": "\u0073\u0065\u006C\u006C",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "stateMutability": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u005F\u006C\u0069\u006D\u0069\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "name": "\u0073\u0065\u0074\u004C\u0069\u006D\u0069\u0074",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u0073\u0074\u0061\u0072\u0074\u0054\u0072\u0061\u0064\u0065",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "bool",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0062\u006F\u006F\u006C"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u006E\u0065\u0077\u004F\u0077\u006E\u0065\u0072",
+    "type": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "transferOwnership",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "\u006E\u0061\u006D\u0065": "usd1Address",
+  "outputs": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "function"
+}];
+const USD1_ABI = [{
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "owner",
+    "type": "address"
+  }, {
+    "indexed": !![],
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "spender",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "value",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u006E\u0061\u006D\u0065": "Approval",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0063\u0061\u006C\u006C\u0065\u0072",
+    "type": "address"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0066\u0072\u006F\u006D",
+    "\u0074\u0079\u0070\u0065": "address"
+  }, {
+    "indexed": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0061\u006D\u006F\u0075\u006E\u0074",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0042\u0075\u0072\u006E",
+  "type": "event"
+}, {
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0063\u0061\u006C\u006C\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "address"
+  }, {
+    "indexed": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "account",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "Freeze",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0038",
+    "name": "version",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0038"
+  }],
+  "name": "\u0049\u006E\u0069\u0074\u0069\u0061\u006C\u0069\u007A\u0065\u0064",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "caller",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": !![],
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "\u0074\u006F",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "amount",
+    "type": "uint256"
+  }],
+  "\u006E\u0061\u006D\u0065": "Mint",
+  "type": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "inputs": [{
+    "indexed": !![],
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "previousOwner",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u006E\u0065\u0077\u004F\u0077\u006E\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u004F\u0077\u006E\u0065\u0072\u0073\u0068\u0069\u0070\u0054\u0072\u0061\u006E\u0073\u0066\u0065\u0072\u0053\u0074\u0061\u0072\u0074\u0065\u0064",
+  "type": "event"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0070\u0072\u0065\u0076\u0069\u006F\u0075\u0073\u004F\u0077\u006E\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "address"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": !![],
+    "internalType": "address",
+    "name": "newOwner",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u004F\u0077\u006E\u0065\u0072\u0073\u0068\u0069\u0070\u0054\u0072\u0061\u006E\u0073\u0066\u0065\u0072\u0072\u0065\u0064",
+  "type": "event"
+}, {
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "Paused",
+  "\u0074\u0079\u0070\u0065": "event"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0066\u0072\u006F\u006D",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "indexed": !![],
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0074\u006F",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": false,
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "value",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "name": "Transfer",
+  "\u0074\u0079\u0070\u0065": "\u0065\u0076\u0065\u006E\u0074"
+}, {
+  "\u0061\u006E\u006F\u006E\u0079\u006D\u006F\u0075\u0073": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": !![],
+    "internalType": "address",
+    "name": "\u0063\u0061\u006C\u006C\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "address"
+  }, {
+    "\u0069\u006E\u0064\u0065\u0078\u0065\u0064": !![],
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "account",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "Unfreeze",
+  "\u0074\u0079\u0070\u0065": "event"
+}, {
+  "anonymous": false,
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "indexed": false,
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0055\u006E\u0070\u0061\u0075\u0073\u0065\u0064",
+  "\u0074\u0079\u0070\u0065": "event"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u0044\u004F\u004D\u0041\u0049\u004E\u005F\u0053\u0045\u0050\u0041\u0052\u0041\u0054\u004F\u0052",
+  "outputs": [{
+    "internalType": "bytes32",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "bytes32"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "inputs": [],
+  "name": "\u0061\u0063\u0063\u0065\u0070\u0074\u004F\u0077\u006E\u0065\u0072\u0073\u0068\u0069\u0070",
+  "outputs": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "name": "\u006F\u0077\u006E\u0065\u0072",
+    "type": "address"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "spender",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0061\u006C\u006C\u006F\u0077\u0061\u006E\u0063\u0065",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "name": "spender",
+    "\u0074\u0079\u0070\u0065": "address"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0061\u006D\u006F\u0075\u006E\u0074",
+    "type": "uint256"
+  }],
+  "name": "\u0061\u0070\u0070\u0072\u006F\u0076\u0065",
+  "outputs": [{
+    "internalType": "bool",
+    "name": "",
+    "type": "\u0062\u006F\u006F\u006C"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "balanceOf",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "name": "",
+    "type": "uint256"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "uint256",
+    "name": "amount",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0062\u0075\u0072\u006E",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "bool",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "\u0062\u006F\u006F\u006C"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0064\u0065\u0063\u0069\u006D\u0061\u006C\u0073",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint8",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0038"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0073\u0070\u0065\u006E\u0064\u0065\u0072",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "subtractedValue",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "name": "\u0064\u0065\u0063\u0072\u0065\u0061\u0073\u0065\u0041\u006C\u006C\u006F\u0077\u0061\u006E\u0063\u0065",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "bool",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "\u0062\u006F\u006F\u006C"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "type": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "\u0066\u0072\u0065\u0065\u007A\u0065",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "address"
+  }],
+  "\u006E\u0061\u006D\u0065": "frozen",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "bool",
+    "name": "",
+    "type": "\u0062\u006F\u006F\u006C"
+  }],
+  "stateMutability": "view",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "spender",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "name": "\u0061\u0064\u0064\u0065\u0064\u0056\u0061\u006C\u0075\u0065",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u006E\u0061\u006D\u0065": "increaseAllowance",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0062\u006F\u006F\u006C",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0062\u006F\u006F\u006C"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0073\u0074\u0072\u0069\u006E\u0067",
+    "name": "\u005F\u006E\u0061\u006D\u0065",
+    "\u0074\u0079\u0070\u0065": "\u0073\u0074\u0072\u0069\u006E\u0067"
+  }, {
+    "internalType": "\u0073\u0074\u0072\u0069\u006E\u0067",
+    "name": "\u005F\u0073\u0079\u006D\u0062\u006F\u006C",
+    "\u0074\u0079\u0070\u0065": "\u0073\u0074\u0072\u0069\u006E\u0067"
+  }],
+  "\u006E\u0061\u006D\u0065": "initialize",
+  "outputs": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "\u006E\u0061\u006D\u0065": "\u0061\u006D\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "uint256"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u006D\u0069\u006E\u0074",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0062\u006F\u006F\u006C",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "\u0062\u006F\u006F\u006C"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u006E\u0061\u006D\u0065",
+  "outputs": [{
+    "internalType": "\u0073\u0074\u0072\u0069\u006E\u0067",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0073\u0074\u0072\u0069\u006E\u0067"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u006F\u0077\u006E\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "\u006E\u006F\u006E\u0063\u0065\u0073",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u006F\u0077\u006E\u0065\u0072",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "address",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "pause",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "stateMutability": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "type": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "name": "\u0070\u0061\u0075\u0073\u0065\u0064",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0062\u006F\u006F\u006C",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "bool"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "view",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [],
+  "\u006E\u0061\u006D\u0065": "\u0070\u0065\u006E\u0064\u0069\u006E\u0067\u004F\u0077\u006E\u0065\u0072",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "address",
+    "name": "",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "stateMutability": "\u0076\u0069\u0065\u0077",
+  "type": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "owner",
+    "type": "address"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0073\u0070\u0065\u006E\u0064\u0065\u0072",
+    "type": "address"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0076\u0061\u006C\u0075\u0065",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }, {
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "\u0064\u0065\u0061\u0064\u006C\u0069\u006E\u0065",
+    "type": "uint256"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0038",
+    "\u006E\u0061\u006D\u0065": "\u0076",
+    "type": "\u0075\u0069\u006E\u0074\u0038"
+  }, {
+    "internalType": "bytes32",
+    "\u006E\u0061\u006D\u0065": "\u0072",
+    "type": "\u0062\u0079\u0074\u0065\u0073\u0033\u0032"
+  }, {
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "bytes32",
+    "\u006E\u0061\u006D\u0065": "\u0073",
+    "\u0074\u0079\u0070\u0065": "\u0062\u0079\u0074\u0065\u0073\u0033\u0032"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0070\u0065\u0072\u006D\u0069\u0074",
+  "outputs": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "renounceOwnership",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0073\u0079\u006D\u0062\u006F\u006C",
+  "outputs": [{
+    "internalType": "\u0073\u0074\u0072\u0069\u006E\u0067",
+    "name": "",
+    "type": "string"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "view",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "name": "\u0074\u006F\u0074\u0061\u006C\u0053\u0075\u0070\u0070\u006C\u0079",
+  "outputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "uint256",
+    "name": "",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u0076\u0069\u0065\u0077",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0074\u006F",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "\u006E\u0061\u006D\u0065": "amount",
+    "type": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "name": "\u0074\u0072\u0061\u006E\u0073\u0066\u0065\u0072",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "internalType": "bool",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "bool"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u0066\u0072\u006F\u006D",
+    "\u0074\u0079\u0070\u0065": "address"
+  }, {
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "to",
+    "type": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }, {
+    "internalType": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036",
+    "name": "\u0061\u006D\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0075\u0069\u006E\u0074\u0032\u0035\u0036"
+  }],
+  "\u006E\u0061\u006D\u0065": "transferFrom",
+  "\u006F\u0075\u0074\u0070\u0075\u0074\u0073": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "bool",
+    "\u006E\u0061\u006D\u0065": "",
+    "type": "bool"
+  }],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "\u006E\u006F\u006E\u0070\u0061\u0079\u0061\u0062\u006C\u0065",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}, {
+  "inputs": [{
+    "internalType": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "name": "\u006E\u0065\u0077\u004F\u0077\u006E\u0065\u0072",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "\u006E\u0061\u006D\u0065": "\u0074\u0072\u0061\u006E\u0073\u0066\u0065\u0072\u004F\u0077\u006E\u0065\u0072\u0073\u0068\u0069\u0070",
+  "outputs": [],
+  "\u0073\u0074\u0061\u0074\u0065\u004D\u0075\u0074\u0061\u0062\u0069\u006C\u0069\u0074\u0079": "nonpayable",
+  "\u0074\u0079\u0070\u0065": "function"
+}, {
+  "inputs": [{
+    "\u0069\u006E\u0074\u0065\u0072\u006E\u0061\u006C\u0054\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073",
+    "\u006E\u0061\u006D\u0065": "\u0061\u0063\u0063\u006F\u0075\u006E\u0074",
+    "\u0074\u0079\u0070\u0065": "\u0061\u0064\u0064\u0072\u0065\u0073\u0073"
+  }],
+  "name": "unfreeze",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "\u0069\u006E\u0070\u0075\u0074\u0073": [],
+  "\u006E\u0061\u006D\u0065": "\u0075\u006E\u0070\u0061\u0075\u0073\u0065",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "\u0074\u0079\u0070\u0065": "\u0066\u0075\u006E\u0063\u0074\u0069\u006F\u006E"
+}];
+var _0xg335f;
+const USD1_ADDRESS = "d0B80f6741294AF4A89B9c89CF84944eE000D0d8x0".split("").reverse().join("");
+_0xg335f = 268437 ^ 268439;
+var _0xb602b;
 const ETH1 = 864000;
+_0xb602b = (457651 ^ 457650) + (104855 ^ 104853);
+var _0x81b91f = (670976 ^ 670977) + (823285 ^ 823285);
 const EGGS_PER_DAY_PER_HEN = 86400;
-
-// Web3实例和合约实例
+_0x81b91f = "lhdjdl".split("").reverse().join("");
+var _0x614dd = (838125 ^ 838116) + (205119 ^ 205118);
 let web3;
+_0x614dd = (728209 ^ 728212) + (117734 ^ 117728);
+var _0x45b;
 let contract;
+_0x45b = 698952 ^ 698955;
+var _0x77a6ag;
 let userAccount;
+_0x77a6ag = (858889 ^ 858893) + (978480 ^ 978481);
+var _0x34dffb = (608132 ^ 608135) + (945589 ^ 945589);
 let userInfoCache = null;
-
-// 初始化
-window.addEventListener('load', async () => {
-    // 检查是否有Web3
-    if (typeof window.ethereum !== 'undefined') {
-        connectWallet();
-        web3 = new Web3(window.ethereum);
-        contract = new web3.eth.Contract(CONTRACT_ABI, CONTRACT_ADDRESS);
-        
-
-        // 检查是否已连接
-        const accounts = await web3.eth.getAccounts();
-        if (accounts.length > 0) {
-            userAccount = accounts[0];
-            onWalletConnected();
-        }
-        
-        // 监听账户变化
-        window.ethereum.on('accountsChanged', (accounts) => {
-            if (accounts.length > 0) {
-                userAccount = accounts[0];
-                onWalletConnected();
-            } else {
-                onWalletDisconnected();
-            }
-        });
+_0x34dffb = (173059 ^ 173060) + (303480 ^ 303485);
+window['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u006C\u006F\u0061\u0064", async () => {
+  console['\u006C\u006F\u0067']("\u521D\u59CB\u5316\u94B1\u5305");
+  await connectWallet();
+  if (typeof window['\u0065\u0074\u0068\u0065\u0072\u0065\u0075\u006D'] !== "\u0075\u006E\u0064\u0065\u0066\u0069\u006E\u0065\u0064") {
+    web3 = new Web3(window['\u0065\u0074\u0068\u0065\u0072\u0065\u0075\u006D']);
+    contract = new web3['\u0065\u0074\u0068']['\u0043\u006F\u006E\u0074\u0072\u0061\u0063\u0074'](CONTRACT_ABI, CONTRACT_ADDRESS);
+    const accounts = await web3['\u0065\u0074\u0068']['\u0067\u0065\u0074\u0041\u0063\u0063\u006F\u0075\u006E\u0074\u0073']();
+    if (accounts['\u006C\u0065\u006E\u0067\u0074\u0068'] > (770292 ^ 770292)) {
+      userAccount = accounts[607164 ^ 607164];
+      onWalletConnected();
     }
-    
-    // 绑定事件
-    document.getElementById('connectWallet').addEventListener('click', connectWallet);
-    document.getElementById('buyEggs').addEventListener('click', buyEggs);
-    document.getElementById('hatchEggs').addEventListener('click', hatchEggs);
-    document.getElementById('sellEggs').addEventListener('click', sellEggs);
-    document.getElementById('copyRef').addEventListener('click', copyReferralLink);
-    document.getElementById('buyAmount').addEventListener('input', updateBuyEstimate);
-    document.querySelectorAll('.quick-buy').forEach(btn => {
-        btn.addEventListener('click', function() {
-            document.getElementById('buyAmount').value = this.dataset.amount;
-            updateBuyEstimate();
-        });
-    });
-    
-    // 定时更新数据
-    setInterval(updateData, 5000);
-});
-
-// 连接钱包
-async function connectWallet() {
-    try {
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        userAccount = accounts[0];
+    window['\u0065\u0074\u0068\u0065\u0072\u0065\u0075\u006D']['\u006F\u006E']("\u0061\u0063\u0063\u006F\u0075\u006E\u0074\u0073\u0043\u0068\u0061\u006E\u0067\u0065\u0064", accounts => {
+      if (accounts['\u006C\u0065\u006E\u0067\u0074\u0068'] > (622424 ^ 622424)) {
+        userAccount = accounts[540358 ^ 540358];
         onWalletConnected();
-    } catch (error) {
-        console.error('连接钱包失败:', error);
-        showToast('连接钱包失败，请重试');
-    }
+      } else {
+        onWalletDisconnected();
+      }
+    });
+  }
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006E\u006E\u0065\u0063\u0074\u0057\u0061\u006C\u006C\u0065\u0074")['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("kcilc".split("").reverse().join(""), connectWallet);
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("sggEyub".split("").reverse().join(""))['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("kcilc".split("").reverse().join(""), buyEggs);
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("sggEhctah".split("").reverse().join(""))['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u0063\u006C\u0069\u0063\u006B", hatchEggs);
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("sggElles".split("").reverse().join(""))['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u0063\u006C\u0069\u0063\u006B", sellEggs);
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u0070\u0079\u0052\u0065\u0066")['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("kcilc".split("").reverse().join(""), copyReferralLink);
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0075\u0079\u0041\u006D\u006F\u0075\u006E\u0074")['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("tupni".split("").reverse().join(""), updateBuyEstimate);
+  document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072\u0041\u006C\u006C']("yub-kciuq.".split("").reverse().join(""))['\u0066\u006F\u0072\u0045\u0061\u0063\u0068'](btn => {
+    btn['\u0061\u0064\u0064\u0045\u0076\u0065\u006E\u0074\u004C\u0069\u0073\u0074\u0065\u006E\u0065\u0072']("\u0063\u006C\u0069\u0063\u006B", function () {
+      document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0075\u0079\u0041\u006D\u006F\u0075\u006E\u0074")['\u0076\u0061\u006C\u0075\u0065'] = this['\u0064\u0061\u0074\u0061\u0073\u0065\u0074']['\u0061\u006D\u006F\u0075\u006E\u0074'];
+      updateBuyEstimate();
+    });
+  });
+  setInterval(updateData, 371676 ^ 374868);
+});
+async function connectWallet() {
+  try {
+    const _0xf_0xf8g = await window['\u0065\u0074\u0068\u0065\u0072\u0065\u0075\u006D']['\u0072\u0065\u0071\u0075\u0065\u0073\u0074']({
+      '\u006D\u0065\u0074\u0068\u006F\u0064': "\u0065\u0074\u0068\u005F\u0072\u0065\u0071\u0075\u0065\u0073\u0074\u0041\u0063\u0063\u006F\u0075\u006E\u0074\u0073"
+    });
+    userAccount = _0xf_0xf8g[347463 ^ 347463];
+    onWalletConnected();
+  } catch (error) {
+    console['\u0065\u0072\u0072\u006F\u0072']("\u8FDE\u63A5\u94B1\u5305\u5931\u8D25\u003A", error);
+    showToast("\u8FDE\u63A5\u94B1\u5305\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+  }
 }
-
-// 钱包连接成功
 function onWalletConnected() {
-    // 隐藏连接按钮，显示地址
-    document.getElementById('connectWallet').style.display = 'none';
-    document.getElementById('walletAddress').style.display = 'block';
-    document.querySelector('.address-text').textContent = 
-        userAccount.substring(0, 6) + '...' + userAccount.substring(38);
-    
-    // 更新邀请链接
-    const refLink = `${window.location.origin}/?ref=${userAccount}`;
-    document.getElementById('refLink').value = refLink;
-    
-    // 加载用户数据
-    loadUserInfo();
-    loadContractData();
-
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006E\u006E\u0065\u0063\u0074\u0057\u0061\u006C\u006C\u0065\u0074")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079'] = "\u006E\u006F\u006E\u0065";
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0077\u0061\u006C\u006C\u0065\u0074\u0041\u0064\u0064\u0072\u0065\u0073\u0073")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079'] = "\u0062\u006C\u006F\u0063\u006B";
+  document['\u0071\u0075\u0065\u0072\u0079\u0053\u0065\u006C\u0065\u0063\u0074\u006F\u0072']("\u002E\u0061\u0064\u0064\u0072\u0065\u0073\u0073\u002D\u0074\u0065\u0078\u0074")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = userAccount['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](380150 ^ 380150, 872294 ^ 872288) + "\u002E\u002E\u002E" + userAccount['\u0073\u0075\u0062\u0073\u0074\u0072\u0069\u006E\u0067'](960814 ^ 960776);
+  const _0x4498e = `${window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u006F\u0072\u0069\u0067\u0069\u006E']}/?ref=${userAccount}`;
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("kniLfer".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065'] = _0x4498e;
+  console['\u006C\u006F\u0067']("\u006F\u006E\u0057\u0061\u006C\u006C\u0065\u0074\u0043\u006F\u006E\u006E\u0065\u0063\u0074\u0065\u0064\u0020\u0031");
+  loadUserInfo();
+  console['\u006C\u006F\u0067']("\u006F\u006E\u0057\u0061\u006C\u006C\u0065\u0074\u0043\u006F\u006E\u006E\u0065\u0063\u0074\u0065\u0064\u0020\u0032");
+  loadContractData();
 }
-
-// 钱包断开连接
 function onWalletDisconnected() {
-    document.getElementById('connectWallet').style.display = 'block';
-    document.getElementById('walletAddress').style.display = 'none';
-    userAccount = null;
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u006F\u006E\u006E\u0065\u0063\u0074\u0057\u0061\u006C\u006C\u0065\u0074")['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079'] = "\u0062\u006C\u006F\u0063\u006B";
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("sserddAtellaw".split("").reverse().join(""))['\u0073\u0074\u0079\u006C\u0065']['\u0064\u0069\u0073\u0070\u006C\u0061\u0079'] = "\u006E\u006F\u006E\u0065";
+  userAccount = null;
 }
-
-// 加载用户数据
 async function loadUserInfo() {
-    if (!userAccount || !contract) return;
-    try {
-        // getUserInfo返回(uint256[] memory, address[] memory)
-        // 0: 累积鸡蛋 1: 母鸡 2: 市场鸡蛋 3: 合约余额 4: 鸡蛋价值 5: 1蛋价值 6: 1U可买蛋数
-        const res = await contract.methods.getUserInfo(userAccount).call({ from: userAccount });
-        const u = res[0];
-        userInfoCache = u;
-        console.log("userInfoCache", userInfoCache);
-        // 母鸡数量
-        document.getElementById('myHens').textContent = formatNumber(u[1]);
-        document.getElementById('eggspersecond').textContent = formatNumber(u[1]);
-        // 母鸡每天产蛋
-        document.getElementById('hensDailyEggs').textContent = `每天产蛋：${formatNumber(u[1] * EGGS_PER_DAY_PER_HEN)} 颗`;
-        // 鸡蛋数量
-        document.getElementById('myEggs').textContent = formatNumber(u[0]);
-        // 可孵化母鸡数
-        document.getElementById('canHatchInfo').textContent = `可孵化 ${Math.floor(u[0] / ETH1)} 只母鸡`;
-        // 卖出鸡蛋预估价值
-        document.getElementById('sellEstimate').textContent = `预估收益：${Number(toNonExponential(Number(web3.utils.fromWei(u[4], 'ether')).toFixed(5)))} USD1`;
-
-    } catch (error) {
-        console.error('加载用户数据失败:', error);
-    }
+  if (!userAccount || !contract) return;
+  console['\u006C\u006F\u0067']("\u006C\u006F\u0061\u0064\u0055\u0073\u0065\u0072\u0049\u006E\u0066\u006F");
+  try {
+    var _0x6cb9c;
+    const _0x7beb = await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0067\u0065\u0074\u0055\u0073\u0065\u0072\u0049\u006E\u0066\u006F'](userAccount)['\u0063\u0061\u006C\u006C']({
+      "from": userAccount
+    });
+    _0x6cb9c = (519267 ^ 519271) + (336796 ^ 336798);
+    const u = _0x7beb[156438 ^ 156438];
+    userInfoCache = u;
+    console['\u006C\u006F\u0067']("\u0075\u0073\u0065\u0072\u0049\u006E\u0066\u006F\u0043\u0061\u0063\u0068\u0065", userInfoCache);
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006D\u0079\u0048\u0065\u006E\u0073")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = formatNumber(u[412200 ^ 412201]);
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0065\u0067\u0067\u0073\u0070\u0065\u0072\u0073\u0065\u0063\u006F\u006E\u0064")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = formatNumber(u[966714 ^ 966715]);
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("sggEyliaDsneh".split("").reverse().join(""))['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = `每天产蛋：${formatNumber(u[237663 ^ 237662] * EGGS_PER_DAY_PER_HEN)} 颗`;
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006D\u0079\u0045\u0067\u0067\u0073")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = formatNumber(u[709277 ^ 709277]);
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0063\u0061\u006E\u0048\u0061\u0074\u0063\u0068\u0049\u006E\u0066\u006F")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = `可孵化 ${Math['\u0066\u006C\u006F\u006F\u0072'](u[831977 ^ 831977] / ETH1)} 只母鸡`;
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0073\u0065\u006C\u006C\u0045\u0073\u0074\u0069\u006D\u0061\u0074\u0065")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = `预估收益：${Number(toNonExponential(Number(web3['\u0075\u0074\u0069\u006C\u0073']['\u0066\u0072\u006F\u006D\u0057\u0065\u0069'](u[219198 ^ 219194], "\u0065\u0074\u0068\u0065\u0072"))['\u0074\u006F\u0046\u0069\u0078\u0065\u0064'](106213 ^ 106208)))} USD1`;
+  } catch (error) {
+    console['\u0065\u0072\u0072\u006F\u0072'](":\u8D25\u5931\u636E\u6570\u6237\u7528\u8F7D\u52A0".split("").reverse().join(""), error);
+  }
 }
-
-// 加载合约数据
 async function loadContractData() {
-    if (!contract) return;
-    
-    try {
-        // getUserInfo返回的市场鸡蛋/合约余额/1蛋价值
-        let u = userInfoCache;
-        if (!u) {
-            const res = await contract.methods.getUserInfo(userAccount).call({ from: userAccount });
-            u = res[0];
-        }
-        updateBuyEstimate();
-
-        document.getElementById('contractBalance').textContent = formatNumber(web3.utils.fromWei(u[3], 'ether')) + ' USD1';
-        document.getElementById('marketEggs').textContent = formatNumber(u[2]);
-        document.getElementById('eggPrice').textContent = toNonExponential((u[5] / 1e18).toFixed(9)) + ' USD1';
-    } catch (error) {
-        console.error('加载合约数据失败:', error);
+  if (!contract) return;
+  console['\u006C\u006F\u0067']("ataDtcartnoCdaol".split("").reverse().join(""));
+  try {
+    let u = userInfoCache;
+    if (!u) {
+      const _0xc2be = await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0067\u0065\u0074\u0055\u0073\u0065\u0072\u0049\u006E\u0066\u006F'](userAccount)['\u0063\u0061\u006C\u006C']({
+        "from": userAccount
+      });
+      u = _0xc2be[579799 ^ 579799];
     }
+    updateBuyEstimate();
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("ecnalaBtcartnoc".split("").reverse().join(""))['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = formatNumber(web3['\u0075\u0074\u0069\u006C\u0073']['\u0066\u0072\u006F\u006D\u0057\u0065\u0069'](u[305702 ^ 305701], "\u0065\u0074\u0068\u0065\u0072")) + "1DSU ".split("").reverse().join("");
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u006D\u0061\u0072\u006B\u0065\u0074\u0045\u0067\u0067\u0073")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = formatNumber(u[340073 ^ 340075]);
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("ecirPgge".split("").reverse().join(""))['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = toNonExponential((u[257266 ^ 257271] / 1e18)['\u0074\u006F\u0046\u0069\u0078\u0065\u0064'](745081 ^ 745072)) + "\u0020\u0055\u0053\u0044\u0031";
+  } catch (error) {
+    console['\u0065\u0072\u0072\u006F\u0072'](":\u8D25\u5931\u636E\u6570\u7EA6\u5408\u8F7D\u52A0".split("").reverse().join(""), error);
+  }
 }
-
-// 购买鸡蛋
 async function buyEggs() {
-    if (!userAccount) {
-        showToast('请先连接钱包');
-        return;
+  if (!userAccount) {
+    showToast("\u8BF7\u5148\u8FDE\u63A5\u94B1\u5305");
+    return;
+  }
+  const _0x1715e = document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("tnuomAyub".split("").reverse().join(""))['\u0076\u0061\u006C\u0075\u0065'];
+  if (!_0x1715e || _0x1715e <= (517455 ^ 517455)) {
+    showToast("\u91CF\u6570\u4E70\u8D2D\u5165\u8F93\u8BF7".split("").reverse().join(""));
+    return;
+  }
+  try {
+    let _0x1c_0x662 = null;
+    var _0x4c7fgc = (869846 ^ 869847) + (426961 ^ 426967);
+    const _0xb267e = new URLSearchParams(window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0073\u0065\u0061\u0072\u0063\u0068']);
+    _0x4c7fgc = (878205 ^ 878196) + (805962 ^ 805955);
+    if (_0xb267e['\u0067\u0065\u0074']("fer".split("").reverse().join(""))) {
+      _0x1c_0x662 = _0xb267e['\u0067\u0065\u0074']("fer".split("").reverse().join(""));
+    } else if (localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("fer".split("").reverse().join(""))) {
+      _0x1c_0x662 = localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0072\u0065\u0066");
+    } else {
+      _0x1c_0x662 = "0000000000000000000000000000000000000000x0".split("").reverse().join("");
     }
-    const amount = document.getElementById('buyAmount').value;
-    if (!amount || amount <= 0) {
-        showToast('请输入购买数量');
-        return;
-    }
-    try {
-        // 获取推荐人地址
-        let ref = null;
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('ref')) {
-            ref = urlParams.get('ref');
-        } else if (localStorage.getItem('ref')) {
-            ref = localStorage.getItem('ref');
-        } else {
-            ref = '0x0000000000000000000000000000000000000000';
-        }
-        const amountWei = web3.utils.toWei(amount, 'ether');
-        // 检查授权额度
-        const usd1 = new web3.eth.Contract(USD1_ABI, USD1_ADDRESS);
-        const allowance = await usd1.methods.allowance(userAccount, CONTRACT_ADDRESS).call();
-        if (BigInt(allowance) < BigInt(amountWei)) {
-            showToast('正在给予转账额度');
-            await usd1.methods.approve(CONTRACT_ADDRESS, web3.utils.toWei('100000', 'ether')).send({from: userAccount});
-        }
-        // 预估gas
-        try {
-            await contract.methods.buy(amountWei, ref).estimateGas({from: userAccount});
-        } catch (e) {
-            showToast('Gas预估失败: ' + (e?.message || e));
-            return;
-        }
-        showToast('正在购买鸡蛋孵化');
-        await contract.methods.buy(amountWei, ref).send({ from: userAccount });
-        showToast('购买成功！');
-        loadUserInfo();
-        loadContractData();
-    } catch (error) {
-        console.error('购买失败:', error);
-        showToast('购买失败，请重试');
-    }
-}
-
-// 孵化鸡蛋
-async function hatchEggs() {
-    if (!userAccount) {
-        showToast('请先连接钱包');
-        return;
+    var _0xg2f6fe;
+    const _0x1g_0x618 = web3['\u0075\u0074\u0069\u006C\u0073']['\u0074\u006F\u0057\u0065\u0069'](_0x1715e, "\u0065\u0074\u0068\u0065\u0072");
+    _0xg2f6fe = (863602 ^ 863603) + (763297 ^ 763304);
+    var _0xa3af4e = (480840 ^ 480845) + (953282 ^ 953284);
+    const _0xdaf8a = new web3['\u0065\u0074\u0068']['\u0043\u006F\u006E\u0074\u0072\u0061\u0063\u0074'](USD1_ABI, USD1_ADDRESS);
+    _0xa3af4e = "qiinjn".split("").reverse().join("");
+    const _0x8bbgd = await _0xdaf8a['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0061\u006C\u006C\u006F\u0077\u0061\u006E\u0063\u0065'](userAccount, CONTRACT_ADDRESS)['\u0063\u0061\u006C\u006C']();
+    if (BigInt(_0x8bbgd) < BigInt(_0x1g_0x618)) {
+      showToast("\u6B63\u5728\u7ED9\u4E88\u8F6C\u8D26\u989D\u5EA6");
+      await _0xdaf8a['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0061\u0070\u0070\u0072\u006F\u0076\u0065'](CONTRACT_ADDRESS, web3['\u0075\u0074\u0069\u006C\u0073']['\u0074\u006F\u0057\u0065\u0069']("000001".split("").reverse().join(""), "\u0065\u0074\u0068\u0065\u0072"))['\u0073\u0065\u006E\u0064']({
+        '\u0066\u0072\u006F\u006D': userAccount
+      });
     }
     try {
-        // 获取推荐人地址
-        let ref = null;
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('ref')) {
-            ref = urlParams.get('ref');
-        } else if (localStorage.getItem('ref')) {
-            ref = localStorage.getItem('ref');
-        } else {
-            ref = '0x0000000000000000000000000000000000000000';
-        }
-        // 预估gas
-        try {
-            await contract.methods.hatchEggs(ref).estimateGas({from: userAccount});
-        } catch (e) {
-            showToast('Gas预估失败: ' + (e?.message || e));
-            return;
-        }
-        showToast('正在孵化母鸡');
-        await contract.methods.hatchEggs(ref).send({ from: userAccount });
-        showToast('孵化成功！');
-        loadUserInfo();
-    } catch (error) {
-        console.error('孵化失败:', error);
-        showToast('孵化失败，请重试');
+      await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0062\u0075\u0079'](_0x1g_0x618, _0x1c_0x662)['\u0065\u0073\u0074\u0069\u006D\u0061\u0074\u0065\u0047\u0061\u0073']({
+        '\u0066\u0072\u006F\u006D': userAccount
+      });
+    } catch (e) {
+      showToast("\u8DB3\u4E0D\u989D\u4F591DSU\u7684\u60A8".split("").reverse().join(""));
+      return;
     }
-}
-
-// 卖出鸡蛋
-async function sellEggs() {
-    if (!userAccount) {
-        showToast('请先连接钱包');
-        return;
-    }
-    
-    try {
-        await contract.methods.sell().send({ from: userAccount });
-        
-        showToast('卖出成功！');
-        loadUserInfo();
-        loadContractData();
-    } catch (error) {
-        console.error('卖出失败:', error);
-        showToast('卖出失败，请重试');
-    }
-}
-
-// 复制邀请链接
-function copyReferralLink() {
-    const refInput = document.getElementById('refLink');
-    refInput.select();
-    document.execCommand('copy');
-    showToast('已复制');
-}
-
-function updateBuyEstimate() {
-    
-    const amount = document.getElementById('buyAmount').value;
-    console.log("amount", amount);
-    if (!amount || !userInfoCache) {
-        document.getElementById('buyEstimate').textContent = '';
-        console.log("!userInfoCache");
-        return;
-    }
-    // userInfoCache[6] = 1U能买多少蛋
-    const eggs = Math.floor(amount * userInfoCache[6]);
-    document.getElementById('buyEstimate').textContent = `约可获得 ${(formatNumber(eggs/ETH1))} 只母鸡`;
-}
-
-// 更新数据（每秒调用）
-function updateData() {
-    if (!userAccount) return;
-    
+    showToast("\u6B63\u5728\u8D2D\u4E70\u9E21\u86CB\u5B75\u5316");
+    await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0062\u0075\u0079'](_0x1g_0x618, _0x1c_0x662)['\u0073\u0065\u006E\u0064']({
+      "from": userAccount
+    });
+    showToast("\uFF01\u529F\u6210\u4E70\u8D2D".split("").reverse().join(""));
     loadUserInfo();
     loadContractData();
+  } catch (error) {
+    console['\u0065\u0072\u0072\u006F\u0072']("\u8D2D\u4E70\u5931\u8D25\u003A", error);
+    showToast("\u8D2D\u4E70\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+  }
 }
-
-// 格式化数字
-function formatNumber(num) {
-    if (!num) return '0';
-    return parseInt(num).toLocaleString('zh-CN');
-}
-
-function toNonExponential(num) {
-    if (typeof num === 'string') num = num.toString();
-    if (num === undefined || num === null) return '0';
-    let n = num.toString();
-    if (n.indexOf('e') !== -1) {
-        let fixed = Number(num).toFixed(18);
-        fixed = fixed.replace(/0+$/, '');
-        return fixed;
+async function hatchEggs() {
+  if (!userAccount) {
+    showToast("\u8BF7\u5148\u8FDE\u63A5\u94B1\u5305");
+    return;
+  }
+  try {
+    let _0xcfca = null;
+    var _0xd_0x197 = (813204 ^ 813207) + (798949 ^ 798945);
+    const _0x638d3c = new URLSearchParams(window['\u006C\u006F\u0063\u0061\u0074\u0069\u006F\u006E']['\u0073\u0065\u0061\u0072\u0063\u0068']);
+    _0xd_0x197 = (773408 ^ 773414) + (468263 ^ 468262);
+    if (_0x638d3c['\u0067\u0065\u0074']("\u0072\u0065\u0066")) {
+      _0xcfca = _0x638d3c['\u0067\u0065\u0074']("\u0072\u0065\u0066");
+    } else if (localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0072\u0065\u0066")) {
+      _0xcfca = localStorage['\u0067\u0065\u0074\u0049\u0074\u0065\u006D']("\u0072\u0065\u0066");
+    } else {
+      _0xcfca = "0000000000000000000000000000000000000000x0".split("").reverse().join("");
     }
-    return n;
+    try {
+      await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0068\u0061\u0074\u0063\u0068\u0045\u0067\u0067\u0073'](_0xcfca)['\u0065\u0073\u0074\u0069\u006D\u0061\u0074\u0065\u0047\u0061\u0073']({
+        "from": userAccount
+      });
+    } catch (e) {
+      showToast(" :\u8D25\u5931\u4F30\u9884saG".split("").reverse().join("") + (e?.message || e));
+      return;
+    }
+    showToast("\u9E21\u6BCD\u5316\u5B75\u5728\u6B63".split("").reverse().join(""));
+    await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0068\u0061\u0074\u0063\u0068\u0045\u0067\u0067\u0073'](_0xcfca)['\u0073\u0065\u006E\u0064']({
+      '\u0066\u0072\u006F\u006D': userAccount
+    });
+    showToast("\uFF01\u529F\u6210\u5316\u5B75".split("").reverse().join(""));
+    loadUserInfo();
+  } catch (error) {
+    console['\u0065\u0072\u0072\u006F\u0072']("\u5B75\u5316\u5931\u8D25\u003A", error);
+    showToast("\u5B75\u5316\u5931\u8D25\uFF0C\u8BF7\u91CD\u8BD5");
+  }
 }
-
+async function sellEggs() {
+  if (!userAccount) {
+    showToast("\u8BF7\u5148\u8FDE\u63A5\u94B1\u5305");
+    return;
+  }
+  try {
+    await contract['\u006D\u0065\u0074\u0068\u006F\u0064\u0073']['\u0073\u0065\u006C\u006C']()['\u0073\u0065\u006E\u0064']({
+      '\u0066\u0072\u006F\u006D': userAccount
+    });
+    showToast("\u5356\u51FA\u6210\u529F\uFF01");
+    loadUserInfo();
+    loadContractData();
+  } catch (error) {
+    console['\u0065\u0072\u0072\u006F\u0072'](":\u8D25\u5931\u51FA\u5356".split("").reverse().join(""), error);
+    showToast("\u8BD5\u91CD\u8BF7\uFF0C\u8D25\u5931\u51FA\u5356".split("").reverse().join(""));
+  }
+}
+function copyReferralLink() {
+  var _0x5df4d = (411893 ^ 411901) + (980823 ^ 980823);
+  const _0x47a7dg = document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("kniLfer".split("").reverse().join(""));
+  _0x5df4d = 964540 ^ 964539;
+  _0x47a7dg['\u0073\u0065\u006C\u0065\u0063\u0074']();
+  document['\u0065\u0078\u0065\u0063\u0043\u006F\u006D\u006D\u0061\u006E\u0064']("ypoc".split("").reverse().join(""));
+  showToast("\u5236\u590D\u5DF2".split("").reverse().join(""));
+}
+function updateBuyEstimate() {
+  const _0xd5527c = document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0075\u0079\u0041\u006D\u006F\u0075\u006E\u0074")['\u0076\u0061\u006C\u0075\u0065'];
+  console['\u006C\u006F\u0067']("tnuoma".split("").reverse().join(""), _0xd5527c);
+  if (!_0xd5527c || !userInfoCache) {
+    document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0075\u0079\u0045\u0073\u0074\u0069\u006D\u0061\u0074\u0065")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = '';
+    console['\u006C\u006F\u0067']("\u0021\u0075\u0073\u0065\u0072\u0049\u006E\u0066\u006F\u0043\u0061\u0063\u0068\u0065");
+    return;
+  }
+  const _0xb94c = Math['\u0066\u006C\u006F\u006F\u0072'](_0xd5527c * userInfoCache[996807 ^ 996801]);
+  document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0062\u0075\u0079\u0045\u0073\u0074\u0069\u006D\u0061\u0074\u0065")['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = `约可获得 ${formatNumber(_0xb94c / ETH1)} 只母鸡`;
+}
+function updateData() {
+  if (!userAccount) return;
+  loadUserInfo();
+  loadContractData();
+}
+function formatNumber(num) {
+  if (!num) return "\u0030";
+  return parseInt(num)['\u0074\u006F\u004C\u006F\u0063\u0061\u006C\u0065\u0053\u0074\u0072\u0069\u006E\u0067']("NC-hz".split("").reverse().join(""));
+}
+function toNonExponential(num) {
+  if (typeof num === "\u0073\u0074\u0072\u0069\u006E\u0067") num = num['\u0074\u006F\u0053\u0074\u0072\u0069\u006E\u0067']();
+  if (num === undefined || num === null) return "\u0030";
+  var _0x4a1c;
+  let n = num['\u0074\u006F\u0053\u0074\u0072\u0069\u006E\u0067']();
+  _0x4a1c = '\u0070\u006E\u006C\u0065\u0065\u006D';
+  if (n['\u0069\u006E\u0064\u0065\u0078\u004F\u0066']("\u0065") !== -(346215 ^ 346214)) {
+    let _0x0fab = Number(num)['\u0074\u006F\u0046\u0069\u0078\u0065\u0064'](806969 ^ 806955);
+    _0x0fab = _0x0fab['\u0072\u0065\u0070\u006C\u0061\u0063\u0065'](new RegExp('\u0030\u002B\u0024', ""), '');
+    return _0x0fab;
+  }
+  return n;
+}
 function showToast(msg) {
-    const container = document.getElementById('toast-container');
-    const toast = document.createElement('div');
-    toast.className = 'toast';
-    toast.textContent = msg;
-    container.appendChild(toast);
+  var _0xb_0xeb8 = (981213 ^ 981212) + (694058 ^ 694059);
+  const _0xc224bd = document['\u0067\u0065\u0074\u0045\u006C\u0065\u006D\u0065\u006E\u0074\u0042\u0079\u0049\u0064']("\u0074\u006F\u0061\u0073\u0074\u002D\u0063\u006F\u006E\u0074\u0061\u0069\u006E\u0065\u0072");
+  _0xb_0xeb8 = "okegmn".split("").reverse().join("");
+  var _0xc28ed = (819455 ^ 819447) + (895318 ^ 895327);
+  const _0xd5b8e = document['\u0063\u0072\u0065\u0061\u0074\u0065\u0045\u006C\u0065\u006D\u0065\u006E\u0074']("\u0064\u0069\u0076");
+  _0xc28ed = 539008 ^ 539009;
+  _0xd5b8e['\u0063\u006C\u0061\u0073\u0073\u004E\u0061\u006D\u0065'] = "tsaot".split("").reverse().join("");
+  _0xd5b8e['\u0074\u0065\u0078\u0074\u0043\u006F\u006E\u0074\u0065\u006E\u0074'] = msg;
+  _0xc224bd['\u0061\u0070\u0070\u0065\u006E\u0064\u0043\u0068\u0069\u006C\u0064'](_0xd5b8e);
+  setTimeout(() => {
+    _0xd5b8e['\u0073\u0074\u0079\u006C\u0065']['\u006F\u0070\u0061\u0063\u0069\u0074\u0079'] = 316269 ^ 316269;
+    _0xd5b8e['\u0073\u0074\u0079\u006C\u0065']['\u0070\u006F\u0069\u006E\u0074\u0065\u0072\u0045\u0076\u0065\u006E\u0074\u0073'] = "\u006E\u006F\u006E\u0065";
     setTimeout(() => {
-        toast.style.opacity = 0;
-        toast.style.pointerEvents = 'none';
-        setTimeout(() => {
-            if (toast.parentNode) toast.parentNode.removeChild(toast);
-        }, 400);
-    }, 2000);
+      if (_0xd5b8e['\u0070\u0061\u0072\u0065\u006E\u0074\u004E\u006F\u0064\u0065']) _0xd5b8e['\u0070\u0061\u0072\u0065\u006E\u0074\u004E\u006F\u0064\u0065']['\u0072\u0065\u006D\u006F\u0076\u0065\u0043\u0068\u0069\u006C\u0064'](_0xd5b8e);
+    }, 533622 ^ 533990);
+  }, 314103 ^ 314663);
 }
