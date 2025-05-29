@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🐔 USD1 养鸡场</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.9.0/dist/web3.min.js"></script>
+   </head>
+   <body>
+               <div class="container">
+        <!-- 头部导航 -->
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">🐔</span>
+                <h1>USD1 养鸡场</h1>
+            </div>
+            <div class="wallet-info">
+                <button class="connect-wallet" id="connectWallet">连接钱包</button>
+                <div class="wallet-address" id="walletAddress" style="display: none;">
+                    <span class="address-text"></span>
+                  </div>
+                  </div>
+        </header>
+
+        <!-- 主标语 -->
+        <div class="hero-section">
+            <h2 class="slogan">🥚 鸡生蛋，蛋生鸡，复利让财富指数增长！</h2>
+            <p class="sub-slogan">每只母鸡每天产 86,400 颗蛋 | 10% 邀请奖励 | 0.8% 手续费</p>
+                  </div>
+
+        <!-- 主要内容区 -->
+        <div class="main-content">
+            <!-- 左侧：我的养鸡场 -->
+            <div class="farm-panel panel">
+                <h3 class="panel-title">🏠 我的养鸡场</h3>
+                
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-icon">🐔</div>
+                        <div class="stat-info">
+                            <span class="stat-label">我的母鸡</span>
+                            <span class="stat-value" id="myHens">0</span>
+                            <div id="hensDailyEggs" class="sub-info"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">🥚</div>
+                        <div class="stat-info">
+                            <span class="stat-label">累积鸡蛋</span>
+                            <span class="stat-value" id="myEggs">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-item">
+                        <div class="stat-icon">⏱️</div>
+                        <div class="stat-info">
+                            <span class="stat-label">每秒产蛋</span>
+                            <span class="stat-value" id="eggspersecond">0</span>
+                        </div>
+                           </div>
+                        </div>
+
+                <!-- 购买入场 -->
+                <div class="buy-section">
+                    <h4>💰 购买母鸡</h4>
+                    <div class="quick-btns">
+                        <button class="btn btn-primary quick-buy" data-amount="10">10U</button>
+                        <button class="btn btn-primary quick-buy" data-amount="100">100U</button>
+                        <button class="btn btn-primary quick-buy" data-amount="500">500U</button>
+                    </div>
+                    <div class="input-group">
+                        <input type="number" id="buyAmount" placeholder="输入 USD1 数量" class="input-field" value="10">
+                        <span class="input-suffix">USD1</span>
+                     </div>
+                    <div class="buy-estimate" id="buyEstimate"></div>
+                    <div class="buy-hint">购买后母鸡自动开始生蛋</div>
+                    <button class="btn btn-primary" id="buyEggs">🐔 购买</button>
+                </div>
+
+                <!-- 操作按钮 -->
+                <div class="action-section">
+                    <h4>🎯 选择你的策略</h4>
+                    <div class="action-buttons">
+                        <button class="btn btn-hatch" id="hatchEggs">
+                            <span class="btn-icon">🐣</span>
+                            <span class="btn-text">孵化母鸡</span>
+                            <span class="btn-desc">复利增长</span>
+                            <div id="canHatchInfo" class="btn-extra"></div>
+                        </button>
+                        <button class="btn btn-sell" id="sellEggs">
+                            <span class="btn-icon">💵</span>
+                            <span class="btn-text">卖出鸡蛋</span>
+                            <span class="btn-desc">获得收益</span>
+                            <div id="sellEstimate" class="btn-extra"></div>
+                        </button>
+                              </div>
+                              </div>
+                           </div>
+
+            <!-- 右侧：信息面板 -->
+            <div class="info-panel">
+                <div class="panel referral">
+                    <h3 class="panel-title">🎁 邀请好友</h3>
+                    <p class="referral-desc">邀请好友加入，获得其孵化时 10% 的鸡蛋奖励！</p>
+                    <div class="referral-link">
+                        <input type="text" id="refLink" readonly value="https://chicken-farm.com/?ref=0x..." class="ref-input">
+                        <button class="btn-copy" id="copyRef">复制</button>
+                    </div>
+                </div>
+                <!-- 合约信息 -->
+                <div class="panel contract-info">
+                    <h3 class="panel-title">📊 养鸡场数据</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <span class="info-label">合约余额</span>
+                            <span class="info-value" id="contractBalance">0 USD1</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">市场鸡蛋总量</span>
+                            <span class="info-value" id="marketEggs">0</span>
+                           </div>
+                        <div class="info-item">
+                            <span class="info-label">当前蛋价</span>
+                            <span class="info-value" id="eggPrice">0 USD1</span>
+                        </div>
+                     </div>
+                  </div>
+
+                <!-- 复利计算器 -->
+                <div class="panel calculator">
+                    <h3 class="panel-title">🧮 复利计算器</h3>
+                    <div class="calc-display">
+                        <div class="calc-row">
+                            <span>如果你有</span>
+                            <span class="calc-num" id="calcInitHens">100</span>
+                            <span>只母鸡,每天产蛋</span>
+                            <span class="calc-num" id="calcInitEggs">8,640,000</span>
+                            <span>颗</span>
+                        </div>
+                        <div class="calc-row">
+                            <span>每</span>
+                            <span class="calc-num" id="calcInitHens">864,000</span>
+                            <span>颗鸡蛋,可继续孵化成</span>
+                            <span class="calc-num" id="calcInitHatch">1</span>
+                            <span>只母鸡。</span>
+                        </div>
+                        <div class="calc-row">
+                            <span>7天后大约有</span>
+                            <span class="calc-num" id="calc7dHens">170</span>
+                            <span>只母鸡,每天产蛋</span>
+                            <span class="calc-num" id="calc7dEggs">14,688,000</span>
+                            <span>颗。</span>
+                        </div>
+                        <div class="calc-row">
+                            <span>30天后大约有</span>
+                            <span class="calc-num" id="calc30dHens">1000</span>
+                            <span>只母鸡,每天产蛋</span>
+                            <span class="calc-num" id="calc30dEggs">86,400,000</span>
+                            <span>颗。</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+         </div>
+      </div>
+    </div>
+
+    <div id="toast-container"></div>
+    <!-- <script src="app.js"></script> -->
+    <script src="a.js"></script>
+   </body>
+</html>
