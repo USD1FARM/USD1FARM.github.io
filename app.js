@@ -35,25 +35,36 @@ async function connectWallet() {
 }
 
 async function loadLotteryInfo() {
-    const userAddress = await connectWallet();
-    if (!userAddress) return;
+    if (!window.ethereum) {
+        alert('请先安装MetaMask等以太坊钱包插件');
+        return;
+    }
+    // 连接钱包
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const userAddress = accounts[0];
 
-    const provider = new window.ethers.providers.Web3Provider(window.ethereum);
-    const contract = new window.ethers.Contract(LOTTERY_CONTRACT_ADDRESS, LOTTERY_ABI, provider);
+    // web3.js初始化
+    if (!window.web3) {
+        window.web3 = new Web3(window.ethereum);
+    }
+    const contract = new window.web3.eth.Contract(LOTTERY_ABI, LOTTERY_CONTRACT_ADDRESS);
 
-    // try {
-        const [info, winners, winnersWinning] = await contract.getAllInfo(userAddress);
-        // info[6] 是奖池金额
+    try {
+        const result = await contract.methods.getAllInfo(userAddress).call();
+        // result[0]: info(uint256[])
+        // result[1]: winners(address[])
+        // result[2]: winnersWinning(uint256[])
+        const info = result[0];
+        const winners = result[1];
+        const winnersWinning = result[2];
+
         document.getElementById('jackpot-amount').innerText =
-            Number(window.ethers.utils.formatUnits(info[6], 18)).toLocaleString('zh-CN', { maximumFractionDigits: 2 });
+            window.web3.utils.fromWei(info[6], 'ether');
 
         // 新增信息区块
-        // info[4] 上次开奖时间（秒）
         const lastDraw = new Date(Number(info[4]) * 1000);
         document.getElementById('last-draw-time').innerText = lastDraw.toLocaleString('zh-CN');
-        // info[1] 总权重
         document.getElementById('total-weight').innerText = Number(info[1]).toLocaleString('zh-CN');
-        // info[0] 用户权重
         document.getElementById('user-weight').innerText = Number(info[0]).toLocaleString('zh-CN');
 
         const winnersList = document.getElementById('winners-list');
@@ -63,16 +74,17 @@ async function loadLotteryInfo() {
         } else {
             for (let i = 0; i < winners.length; i++) {
                 const addr = winners[i];
-                const winAmount = winnersWinning[i] ? Number(window.ethers.utils.formatUnits(winnersWinning[i], 18)) : 0;
+                const winAmount = winnersWinning[i] ? window.web3.utils.fromWei(winnersWinning[i], 'ether') : 0;
                 const div = document.createElement('div');
                 div.className = 'winner-address fomo';
-                div.innerHTML = `<a href="${CHAIN_EXPLORER}${addr}" target="_blank" title="区块浏览器">${addr.slice(0,6)}...${addr.slice(-4)}</a> <span class="win-amount">+${winAmount.toLocaleString('zh-CN', {maximumFractionDigits:2})} USD1</span>`;
+                div.innerHTML = `<a href="${CHAIN_EXPLORER}${addr}" target="_blank" title="区块浏览器">${addr.slice(0,6)}...${addr.slice(-4)}</a> <span class="win-amount">+${Number(winAmount).toLocaleString('zh-CN', {maximumFractionDigits:2})} USD1</span>`;
                 winnersList.appendChild(div);
             }
         }
-    // } catch (e) {
-    //     alert('合约信息获取失败，请检查网络和合约地址');
-    // }
+    } catch (e) {
+        console.error(e);
+        alert('合约信息获取失败，请检查网络和合约地址');
+    }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
