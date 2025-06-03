@@ -41,7 +41,7 @@ async function loadLotteryInfo() {
     const provider = new window.ethers.providers.Web3Provider(window.ethereum);
     const contract = new window.ethers.Contract(LOTTERY_CONTRACT_ADDRESS, LOTTERY_ABI, provider);
 
-    try {
+    // try {
         const [info, winners, winnersWinning] = await contract.getAllInfo(userAddress);
         // info[6] 是奖池金额
         document.getElementById('jackpot-amount').innerText =
@@ -70,9 +70,9 @@ async function loadLotteryInfo() {
                 winnersList.appendChild(div);
             }
         }
-    } catch (e) {
-        alert('合约信息获取失败，请检查网络和合约地址');
-    }
+    // } catch (e) {
+    //     alert('合约信息获取失败，请检查网络和合约地址');
+    // }
 }
 
 window.addEventListener('DOMContentLoaded', () => {
