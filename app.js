@@ -79,7 +79,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // 检查ethers.js
     if (!window.ethers) {
         const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js';
+        script.src = 'ether.js';
         script.onload = loadLotteryInfo;
         document.body.appendChild(script);
     } else {
