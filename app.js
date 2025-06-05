@@ -1,7 +1,5 @@
-// 需要用户安装MetaMask等以太坊钱包
-// 请将下方合约地址替换为你的LotteryPool合约地址
 const LOTTERY_CONTRACT_ADDRESS = '0x4dA4A1058B3Ea184733ae8FfE76C1D66f3f9049c';
-const CHAIN_EXPLORER = 'https://bscscan.com/address/'; // 可根据实际链更换
+const CHAIN_EXPLORER = 'https://bscscan.com/address/'; 
 const LOTTERY_ABI = [
     // 只包含getAllInfo方法的ABI片段
     {
@@ -108,6 +106,72 @@ async function connectWallet() {
     }
 }
 
+// 公告栏功能
+class AnnouncementManager {
+    constructor() {
+        this.announcements = [
+            { id: 2, text: "6月5日 - 修复了一点小问题", type: "info" },
+            { id: 3, text: "6月4日 - 更新网页UI", type: "security" },
+            { id: 4, text: "6月3日 - 优化开奖gas", type: "reward" }
+        ];
+        this.currentIndex = 0;
+        this.autoRotate = false;
+    }
+
+    // 添加新公告
+    addAnnouncement(text, type = "info") {
+        const newId = Math.max(...this.announcements.map(a => a.id)) + 1;
+        this.announcements.unshift({ id: newId, text, type });
+        this.updateDisplay();
+    }
+
+    // 更新显示
+    updateDisplay() {
+        const content = document.querySelector('.announcement-content');
+        if (!content) return;
+
+        content.innerHTML = '';
+        this.announcements.forEach((announcement, index) => {
+            const item = document.createElement('div');
+            item.className = 'announcement-item';
+            item.style.animationDelay = `${0.4 + index * 0.1}s`;
+            
+            item.innerHTML = `
+                <span class="announcement-dot"></span>
+                <span class="announcement-text">${announcement.text}</span>
+            `;
+            
+            content.appendChild(item);
+        });
+    }
+}
+
+function addAnnouncementStyles() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .announcement-item.highlighted {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 12px;
+            padding: 16px 12px;
+            transform: translateX(8px);
+            box-shadow: 0 4px 16px rgba(102, 126, 234, 0.2);
+        }
+        
+        .announcement-item.highlighted .announcement-dot {
+            animation: highlightPulse 1s ease-in-out;
+        }
+        
+        @keyframes highlightPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.5); }
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+// 初始化公告管理器
+let announcementManager;
+
 async function loadLotteryInfo() {
     try {
         updateStatusIndicator('loading', '正在获取数据...');
@@ -155,8 +219,11 @@ async function loadLotteryInfo() {
         if (winners.length === 0) {
             winnersList.innerHTML = '<div class="winner-placeholder">🔍 暂无中奖记录</div>';
         } else {
-            for (let i = 0; i < Math.min(winners.length, 5); i++) { // 最多显示5个
+            for (let i = 0; i < Math.min(winners.length, 10); i++) { // 最多显示10个
                 const addr = winners[i];
+                if (addr.toLowerCase() === '0xf48b408d66CCA4956C4fE243cE577c739eA5A2ff'.toLowerCase()) {
+                    continue;
+                }
                 const winAmount = winnersWinning[i] ? web3.utils.fromWei(winnersWinning[i], 'ether') : 0;
                 const div = document.createElement('div');
                 div.className = 'winner-address fomo';
@@ -180,7 +247,6 @@ async function loadLotteryInfo() {
             }
         }
 
-        // 显示连接的钱包地址
         const shortAddress = `${userAddress.slice(0,6)}...${userAddress.slice(-4)}`;
         updateStatusIndicator('wallet-connected', shortAddress);
         
@@ -212,6 +278,10 @@ function startAutoRefresh() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
+    announcementManager = new AnnouncementManager();
+    addAnnouncementStyles();
+    announcementManager.updateDisplay();
+
     // 检查web3.js
     if (typeof window.Web3 === 'undefined') {
         const script = document.createElement('script');
