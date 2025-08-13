@@ -53,7 +53,7 @@ async function loadLotteryInfo() {
         const winnersWinning = result[2];
 
         const okbAmount = Number(web3.utils.fromWei(info[6], 'ether'));
-        document.getElementById('jackpot-amount').innerText = `${okbAmount.toLocaleString('zh-CN', { maximumFractionDigits: 4, minimumFractionDigits: 4 })} OKB (￥${(okbAmount * 108.50).toLocaleString('zh-CN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })})`;
+        document.getElementById('jackpot-amount').innerText = `${okbAmount.toLocaleString('zh-CN', { maximumFractionDigits: 4, minimumFractionDigits: 4 })} OKB ($${(okbAmount * 108.50).toLocaleString('zh-CN', { maximumFractionDigits: 2, minimumFractionDigits: 2 })})`;
 
         // Info section
         const lastDraw = new Date(Number(info[4]) * 1000);
