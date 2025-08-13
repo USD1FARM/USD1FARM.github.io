@@ -3,61 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>USD1 LUCKY奖池</title>
+    <title>LUCKYE</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 </head>
 <body>
-    <div class="lottery-container">
-        <header>
-            <h1>USD1 LUCKY奖池</h1>
-            <div class="subtitle">🎲 全自动开奖, 无需人工干预 🎲</div>
-        </header>
-        
-        <section class="announcement-section">
-            <div class="announcement-header">
-                <span class="announcement-icon">📢</span>
-                <span class="announcement-title">更新公告</span>
-                <span class="announcement-badge">NEW</span>
-            </div>
-            <div class="announcement-content">
-
-            </div>
-        </section>
-        
-        <section class="jackpot-section">
-            <div class="jackpot-label">🏆 当前奖池金额（USD1）</div>
-            <div id="jackpot-amount" class="jackpot-amount">0</div>
-            <div class="jackpot-description">实时更新・透明公正・即时到账</div>
-        </section>
-        
-        <section class="winners-section">
-            <h2>往期中奖者</h2>
-            <div id="winners-list" class="winners-list">
-                <div class="winner-placeholder">🔍 暂无数据</div>
-            </div>
-        </section>
-        
-        <section class="info-section">
-            <div class="info-row">
-                <span class="info-label">🕐 上次开奖时间：</span>
-                <span id="last-draw-time" class="info-value">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">⚖️ 当前总权重：</span>
-                <span id="total-weight" class="info-value">-</span>
-            </div>
-            <div class="info-row">
-                <span class="info-label">👤 我的权重：</span>
-                <span id="user-weight" class="info-value">-</span>
-            </div>
-            <div class="info-footer">
-                <span class="status-indicator" id="status-indicator">🔄 正在连接...</span>
-            </div>
-        </section>
+    <div class="main-flex-container">
+        <div class="left-panel">
+            <header>
+                <h1>OKB 幸运池</h1>
+            </header>
+            <section class="jackpot-section">
+                <div class="jackpot-label">当前奖池 (OKB)</div>
+                <div id="jackpot-amount" class="jackpot-amount">0</div>
+            </section>
+            <section class="info-section">
+                <div class="info-row">
+                    <span class="info-label">上次开奖时间:</span>
+                    <span id="last-draw-time" class="info-value">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">总权重:</span>
+                    <span id="total-weight" class="info-value">-</span>
+                </div>
+                <div class="info-row">
+                    <span class="info-label">我的权重:</span>
+                    <span id="user-weight" class="info-value">-</span>
+                </div>
+            </section>
+        </div>
+        <div class="right-panel">
+            <section class="winners-section">
+                <h2>最近获奖者</h2>
+                <div id="winners-list" class="winners-list">
+                    <div class="winner-placeholder">暂无数据</div>
+                </div>
+            </section>
+        </div>
     </div>
-    
     <script src="app.js"></script>
 </body>
 </html> 
