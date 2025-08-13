@@ -72,7 +72,7 @@ async function loadLotteryInfo() {
                 const winAmount = winnersWinning[i] ? web3.utils.fromWei(winnersWinning[i], 'ether') : 0;
                 const div = document.createElement('div');
                 div.className = 'winner-address fomo';
-                div.innerHTML = `<a href="${CHAIN_EXPLORER}${addr}" target="_blank" title="在浏览器中查看">${addr.slice(0,6)}...${addr.slice(-4)}</a> <span class="win-amount">+${Number(winAmount).toLocaleString('zh-CN', {maximumFractionDigits:4})} OKB (￥${(winAmount * 45.50).toLocaleString('zh-CN', {maximumFractionDigits:2, minimumFractionDigits:2})})</span>`;
+                div.innerHTML = `<a href="${CHAIN_EXPLORER}${addr}" target="_blank" title="在浏览器中查看">${addr.slice(0,6)}...${addr.slice(-4)}</a> <span class="win-amount">+${Number(winAmount).toLocaleString('zh-CN', {maximumFractionDigits:4})} OKB ($${(winAmount * 105).toLocaleString('zh-CN', {maximumFractionDigits:2, minimumFractionDigits:2})})</span>`;
                 winnersList.appendChild(div);
             }
         }
